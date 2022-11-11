@@ -18,3 +18,20 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Ingredients(models.Model):
+
+    name = models.CharField(
+        'Ингредиент',
+        max_length=200)
+    measurement_unit = models.CharField(
+        'Единица измерения',
+        max_length=200)
+
+    class Meta:
+        verbose_name = ("Ингредиент")
+        verbose_name_plural = ("Ингредиенты")
+
+    def __str__(self):
+        return self.name
