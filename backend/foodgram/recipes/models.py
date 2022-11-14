@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Tags(models.Model):
 
     name = models.CharField(max_length=200,
@@ -20,7 +21,7 @@ class Tags(models.Model):
         return self.name
 
 
-class Ingredients(models.Model):
+class Ingredient(models.Model):
 
     name = models.CharField(
         'Ингредиент',
@@ -35,3 +36,4 @@ class Ingredients(models.Model):
 
     def __str__(self):
         return self.name
+
