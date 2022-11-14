@@ -100,3 +100,57 @@ class RecipeIngredient(models.Model):
         return (self.ingredient.name,
                 self.amount,
                 self.ingredient.measurement_unit)
+
+
+class Favorite(models.Model):
+    """ Модель для Избранного. """
+    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             related_name='user')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
+                               related_name='favorite_recipe')
+
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранное'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='unique_user_recipe')]
+
+
+class ShopList(models.Model):
+    """ Модель для Листа Покупок. """
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.CASCADE,
+                                 related_name='cart_recipe')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
+                               related_name='cart_recipe')
+
+    class Meta:
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Списки покупок'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='unique_customer_recipe')]
+
+
+class Follow(models.Model):
+    """ Модель для Подписок. """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             related_name='follower')
+    following = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE,
+                                  related_name='following')
+
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'],
+                name='unique_following')]
