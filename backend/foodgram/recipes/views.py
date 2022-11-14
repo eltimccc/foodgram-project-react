@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Tags, Ingredient
-from .filters import IngredientSearchFilter
-from .serializers import TagsSerializer, IngredientSerializer
+from .models import Tags, Ingredient, Recipe
+from .filters import IngredientSearchFilter, RecipeFilter
+from .serializers import (TagsSerializer,
+                          IngredientSerializer,
+                          RecipeSerializer,
+                          RecipesCreateSerializer)
+from .pagination import LimitPageNumberPagination
 
 
 class TagsView(viewsets.ReadOnlyModelViewSet):
@@ -20,3 +24,19 @@ class IngredientView(viewsets.ReadOnlyModelViewSet):
     filter_backends = (IngredientSearchFilter,)
     search_fields = ('^name',)
     pagination_class = None
+
+
+class RecipeView(viewsets.ModelViewSet):
+    serializer_class = RecipeSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = Recipe.objects.all()
+    filterset_class = RecipeFilter
+    pagination_class = LimitPageNumberPagination
+
+    def get_serializer_class(self):
+        if self.request.method in ('POST', 'PUT', 'PATCH'):
+            return RecipesCreateSerializer
+        return RecipeSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
