@@ -62,6 +62,32 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
             'name', 'image', 'text', 'cooking_time'
         )
 
+    def validate(self, data):
+        ingredients = data['ingredients']
+        ingredient_list = []
+        cook_time = data['cooking_time']
+        cook_time_list = []
+        amount_ingredient = ingredient['amount']
+        for items in ingredients:
+            ingredient = Ingredient.objects.get(id=items['name'])
+            if ingredient in ingredient_list:
+                raise serializers.ValidationError(
+                    'Дублирование ингредиента')
+            ingredient_list.append(ingredient)
+            if ingredient_list <= 0:
+                raise serializers.ValidationError(
+                    'Ингредиентов меньше 0!')
+        if cook_time <= 0:
+            raise serializers.ValidationError(
+                        'Время должно быть неотрицательное!'
+                    )
+        cook_time_list.append(cook_time)
+        if amount_ingredient <= 0:
+            raise serializers.ValidationError(
+                        'Укажите правильное количество ингедиентов.'
+                    )
+        return data
+
     def create_ingredients(self, ingredients, recipe):
         create_ingredient = [
             RecipeIngredient(

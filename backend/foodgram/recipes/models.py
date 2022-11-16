@@ -33,6 +33,11 @@ class Ingredient(models.Model):
     measurement_unit = models.CharField(
         'Единица измерения',
         max_length=200)
+    constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'measurement_unit'],
+                name='unique_name_m_unit')]
+
 
     class Meta:
         verbose_name = ("Ингредиент")
@@ -65,7 +70,7 @@ class Recipe(models.Model):
         validators=[MinValueValidator(1, message='Не может быть равно нулю')])
 
     class Meta:
-        ordering = ['-id']
+        ordering = ('-id',)
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
@@ -85,7 +90,7 @@ class RecipeIngredient(models.Model):
         verbose_name='Кол-во ингредиентов',
         default=1,
         validators=[MinValueValidator(1,
-                                      message='Не равно нулю или отрицательному числу')]
+                                      message='Не равно нулю или отрицательному числу',)]
     )
 
     class Meta:
@@ -94,12 +99,12 @@ class RecipeIngredient(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['recipe', 'ingredient'],
-                name='unique_ingredient')]
+                name='unique_ingredient',)]
 
     def __str__(self):
-        return (self.ingredient.name,
-                self.amount,
-                self.ingredient.measurement_unit)
+        return (f'{self.ingredient.name}'
+                f'{self.amount}'
+                f'{self.ingredient.measurement_unit}')
 
 
 class Favorite(models.Model):
