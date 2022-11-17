@@ -34,10 +34,9 @@ class Ingredient(models.Model):
         'Единица измерения',
         max_length=200)
     constraints = [
-            models.UniqueConstraint(
-                fields=['name', 'measurement_unit'],
-                name='unique_name_m_unit')]
-
+        models.UniqueConstraint(
+            fields=['name', 'measurement_unit'],
+            name='unique_name_m_unit')]
 
     class Meta:
         verbose_name = ("Ингредиент")
@@ -109,7 +108,7 @@ class RecipeIngredient(models.Model):
 
 class Favorite(models.Model):
     """ Модель для Избранного. """
-    
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name='user')
@@ -129,8 +128,8 @@ class ShopList(models.Model):
     """ Модель для Листа Покупок. """
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 on_delete=models.CASCADE,
-                                 related_name='cart_recipe')
+                             on_delete=models.CASCADE,
+                             related_name='cart_recipe')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
                                related_name='cart_recipe')
 

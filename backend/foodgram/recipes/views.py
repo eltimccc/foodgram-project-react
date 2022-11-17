@@ -22,7 +22,8 @@ from .serializers import (TagsSerializer,
                           IngredientSerializer,
                           RecipeSerializer,
                           RecipesCreateSerializer,
-                          FollowSerializer)
+                          FollowSerializer,
+                          FollowCreateSerializer)
 from .pagination import LimitPageNumberPagination
 from .utils import remov_obj, add_obj
 
@@ -39,16 +40,19 @@ class CustomUserViewSet(UserViewSet):
     @action(detail=True, methods=['POST'], url_path='subscribe')
     def user_subscribe_add(self, request, id):
         user = request.user
-        following = get_object_or_404(CustomUser, pk=id)
-        serializer = FollowSerializer(
+        following = CustomUser.objects.filter(pk=id)
+        serializer = FollowCreateSerializer(
             data={'user': user.id, 'following': id},
             context={'request': request})
+        print('test')
         serializer.is_valid(raise_exception=True)
+        print('test')
         serializer.save()
         follow = get_object_or_404(Follow, user=user, following=following)
         serializer = FollowSerializer(follow.following,
                                       context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
     @user_subscribe_add.mapping.delete
     def user_subscribe_del(self, request, id):
