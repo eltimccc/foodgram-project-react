@@ -1,33 +1,41 @@
 from django.contrib import admin
 
-from .models import (Tags,
-                     Ingredient,
-                     Recipe,
-                     RecipeIngredient)
+from .models import Tags, Ingredient, Recipe, RecipeIngredient
 
 
 class TagsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'color',)
-    list_filter = ('slug',)
-    search_fields = ('slug',)
+    list_display = (
+        "name",
+        "slug",
+        "color",
+    )
+    list_filter = ("slug",)
+    search_fields = ("slug",)
 
 
 admin.site.register(Tags, TagsAdmin)
 
 
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'measurement_unit',)
-    list_filter = ('name',)
-    search_fields = ('name',)
+    list_display = (
+        "name",
+        "measurement_unit",
+    )
+    list_filter = ("name",)
+    search_fields = ("name",)
 
 
 admin.site.register(Ingredient, IngredientAdmin)
 
 
 class RecipesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author_id', 'cooking_time',)
-    filter_horizontal = ['tags', 'ingredients']
-    search_fields = ('name',)
+    list_display = (
+        "name",
+        "author_id",
+        "cooking_time",
+    )
+    filter_horizontal = ["tags", "ingredients"]
+    search_fields = ("name",)
 
 
 admin.site.register(Recipe, RecipesAdmin)

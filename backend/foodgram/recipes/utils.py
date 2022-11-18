@@ -9,8 +9,9 @@ from .models import Recipe
 def remov_obj(model, user, pk):
     recipe = get_object_or_404(Recipe, id=pk)
     if not model.objects.filter(user=user, recipe=recipe).exists():
-        return Response('Рецепт отсутствует в избранном',
-                        status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            "Рецепт отсутствует в избранном", status=status.HTTP_400_BAD_REQUEST
+        )
     obj = model.objects.get(user=user, recipe__id=pk)
     obj.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -19,8 +20,10 @@ def remov_obj(model, user, pk):
 def add_obj(model, user, pk):
     recipe = get_object_or_404(Recipe, id=pk)
     if model.objects.filter(user=user, recipe=recipe).exists():
-        return Response('Рецепт успешно добавлен в список покупок',
-                        status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            "Рецепт успешно добавлен в список покупок",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     obj = model.objects.create(user=user, recipe=recipe)
     serializer = RecipeFollowSerializer(obj.recipe)
     return Response(serializer.data, status=status.HTTP_201_CREATED)

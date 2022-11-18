@@ -7,21 +7,41 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Tags',
+            name="Tags",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='название')),
-                ('color', models.CharField(max_length=7, unique=True, verbose_name='цвет (HEX)')),
-                ('slug', models.SlugField(max_length=200, unique=True, verbose_name='slug')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=200, unique=True, verbose_name="название"
+                    ),
+                ),
+                (
+                    "color",
+                    models.CharField(
+                        max_length=7, unique=True, verbose_name="цвет (HEX)"
+                    ),
+                ),
+                (
+                    "slug",
+                    models.SlugField(max_length=200, unique=True, verbose_name="slug"),
+                ),
             ],
             options={
-                'verbose_name': 'Тег',
-                'verbose_name_plural': 'Теги',
+                "verbose_name": "Тег",
+                "verbose_name_plural": "Теги",
             },
         ),
     ]
