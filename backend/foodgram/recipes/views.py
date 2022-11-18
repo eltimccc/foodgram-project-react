@@ -172,5 +172,5 @@ class RecipeView(viewsets.ModelViewSet):
         today = datetime.date.today()
         main_list.append(f" Вы успешно скачали свой список в {today.year} году")
         response = HttpResponse(main_list, "Content-Type: text/plain")
-        response["Content-Disposition"] = 'attachment; filename="BuyList.txt"'
+        response["Content-Disposition"] = 'attachment; filename="ShopList.txt"'
         return response

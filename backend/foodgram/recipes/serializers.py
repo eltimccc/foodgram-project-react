@@ -182,7 +182,7 @@ class RecipeFollowSerializer(RecipeSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    """Создаем сериализатор для подписок."""
+    """Создаем сериализатор для просмотра подписок."""
 
     email = serializers.ReadOnlyField(source="following.email")
     id = serializers.ReadOnlyField(source="following.id")
