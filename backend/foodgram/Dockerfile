@@ -2,7 +2,7 @@ FROM python:3.7-slim
 WORKDIR /backend
 RUN pwd
 RUN ls
-COPY foodgram/requirements.txt .
+COPY requirements.txt .
 RUN pip install --upgrade pip --no-cache-dir
 RUN apt-get update \
     && pip install psycopg2
