@@ -1,18 +1,12 @@
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from rest_framework.validators import UniqueTogetherValidator
-from .models import (
-    Tags,
-    Ingredient,
-    Recipe,
-    RecipeIngredient,
-    Favorite,
-    ShopList,
-    Follow,
-)
-from users.serializers import CustomUserSerializer
-from users.models import CustomUser
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+from users.models import CustomUser
+from users.serializers import CustomUserSerializer
+
+from .models import (Favorite, Follow, Ingredient, Recipe, RecipeIngredient,
+                     ShopList, Tags)
 
 
 class TagsSerializer(serializers.ModelSerializer):

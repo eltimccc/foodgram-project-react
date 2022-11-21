@@ -1,34 +1,24 @@
 import datetime
+
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet
-from rest_framework import viewsets, status
-from rest_framework.generics import get_object_or_404
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import (IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-
-from .models import (
-    Tags,
-    Ingredient,
-    Recipe,
-    ShopList,
-    Favorite,
-    RecipeIngredient,
-    Follow,
-)
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
+
 from .filters import IngredientSearchFilter, RecipeFilter
-from .serializers import (
-    TagsSerializer,
-    IngredientSerializer,
-    RecipeSerializer,
-    RecipesCreateSerializer,
-    FollowSerializer,
-    FollowCreateSerializer,
-)
+from .models import (Favorite, Follow, Ingredient, Recipe, RecipeIngredient,
+                     ShopList, Tags)
 from .pagination import LimitPageNumberPagination
-from .utils import remov_obj, add_obj
+from .serializers import (FollowCreateSerializer, FollowSerializer,
+                          IngredientSerializer, RecipesCreateSerializer,
+                          RecipeSerializer, TagsSerializer)
+from .utils import add_obj, remov_obj
 
 
 class CustomUserViewSet(UserViewSet):
