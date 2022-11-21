@@ -15,7 +15,9 @@ class RecipeFilter(django_filters.FilterSet):
         to_field_name="slug",
     )
     is_favorited = django_filters.BooleanFilter(method="get_is_favorited")
-    is_in_shopping_cart = django_filters.BooleanFilter(method="get_is_in_shopping_cart")
+    is_in_shopping_cart = django_filters.BooleanFilter(
+        method="get_is_in_shopping_cart"
+    )
 
     class Meta:
         model = Recipe

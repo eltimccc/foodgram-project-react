@@ -34,7 +34,9 @@ class CustomUserViewSet(UserViewSet):
     def user_subscribe_add(self, request, id):
         user = request.user
         serializer = FollowCreateSerializer(
-            data={"user": user.id, "following": id}, context={"request": request}
+            data={"user": user.id,
+                  "following": id},
+            context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -63,7 +65,8 @@ class CustomUserViewSet(UserViewSet):
         user = request.user
         queryset = Follow.objects.filter(user=user)
         pages = self.paginate_queryset(queryset)
-        serializer = FollowSerializer(pages, many=True, context={"request": request})
+        serializer = FollowSerializer(
+            pages, many=True, context={"request": request})
         return self.get_paginated_response(serializer.data)
 
 
@@ -160,7 +163,8 @@ class RecipeView(viewsets.ModelViewSet):
             for item, value in shopping_list.items()
         ]
         today = datetime.date.today()
-        main_list.append(f" Вы успешно скачали свой список в {today.year} году")
+        main_list.append(
+            f" Вы успешно скачали свой список в {today.year} году")
         response = HttpResponse(main_list, "Content-Type: text/plain")
         response["Content-Disposition"] = 'attachment; filename="ShopList.txt"'
         return response

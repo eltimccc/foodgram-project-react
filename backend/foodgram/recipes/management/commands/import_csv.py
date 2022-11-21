@@ -12,5 +12,6 @@ class Command(BaseCommand):
             reader = csv.reader(a)
             for row in reader:
                 name, unit = row
-                Ingredient.objects.get_or_create(name=name, measurement_unit=unit)
+                Ingredient.objects.get_or_create(name=name,
+                                                 measurement_unit=unit)
         self.stdout.write(self.style.SUCCESS("Import from csv completed!"))
