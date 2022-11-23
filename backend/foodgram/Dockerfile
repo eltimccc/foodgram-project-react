@@ -6,4 +6,4 @@ RUN ls
 RUN ls foodgram
 RUN pip3 install -r foodgram/requirements.txt --no-cache-dir
 COPY . .
-CMD ["gunicorn", "foodgram.foodgram.wsgi:application", "--bind", "0:8000"]
+CMD ["gunicorn", "foodgram.wsgi:application", "--bind", "0:8000"]
