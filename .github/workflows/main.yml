@@ -61,8 +61,8 @@ jobs:
           - name: executing remote ssh commands to deploy
             uses: appleboy/ssh-action@master
             with:
-               host: db
-               username: postgres
+               host: ${{ secrets.DB_HOST }}
+               username: ${{ secrets.USER }}
                key: ${{ secrets.SSH_KEY }}
                passphrase: ${{ secrets.PASSPHRASE }}
                script: |
