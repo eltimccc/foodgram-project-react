@@ -12,4 +12,4 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-# 123456789010111234567891
+# 1234567890101112345678912
