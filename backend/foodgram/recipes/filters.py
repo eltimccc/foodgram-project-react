@@ -1,28 +1,21 @@
 from django_filters import rest_framework as django_filters
-from recipes.models import Recipe
-from recipes.models import Ingredient
+
+from recipes.models import Ingredient, Recipe
 
 
 class RecipeFilter(django_filters.FilterSet):
     """Фильтр рецептов."""
 
-    author = django_filters.CharFilter(
-        field_name='author__id',
-        lookup_expr='icontains'
-    )
-    tags = django_filters.AllValuesMultipleFilter(field_name='tags__slug')
-    is_favorited = django_filters.BooleanFilter(method='filter_is_favorited')
+    author = django_filters.CharFilter(field_name="author__id", lookup_expr="icontains")
+    tags = django_filters.AllValuesMultipleFilter(field_name="tags__slug")
+    is_favorited = django_filters.BooleanFilter(method="filter_is_favorited")
     is_in_shopping_cart = django_filters.BooleanFilter(
-        method='filter_is_in_shopping_cart')
+        method="filter_is_in_shopping_cart"
+    )
 
     class Meta:
         model = Recipe
-        fields = (
-            'author',
-            'tags',
-            'is_favorited',
-            'is_in_shopping_cart'
-        )
+        fields = ("author", "tags", "is_favorited", "is_in_shopping_cart")
 
     def filter_is_favorited(self, queryset, name, value):
         if value:
@@ -36,8 +29,8 @@ class RecipeFilter(django_filters.FilterSet):
 
 
 class IngredientSearchFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='istartswith')
+    name = django_filters.CharFilter(lookup_expr="istartswith")
 
     class Meta:
         model = Ingredient
-        fields = ('name', )
+        fields = ("name",)

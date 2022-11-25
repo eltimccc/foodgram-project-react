@@ -6,9 +6,21 @@ from django.db import models
 class Tags(models.Model):
     """Модель Тегов."""
 
-    name = models.CharField(max_length=200, verbose_name="название", unique=True)
-    color = models.CharField(max_length=7, verbose_name="цвет (HEX)", unique=True)
-    slug = models.SlugField(verbose_name="slug", unique=True, max_length=200)
+    name = models.CharField(
+        max_length=200,
+        verbose_name="название",
+        unique=True
+    )
+    color = models.CharField(
+        max_length=7,
+        verbose_name="цвет (HEX)",
+        unique=True
+    )
+    slug = models.SlugField(
+        verbose_name="slug",
+        unique=True,
+        max_length=200
+    )
 
     class Meta:
         verbose_name = "Тег"
@@ -41,10 +53,13 @@ class Recipe(models.Model):
     """Модель Рецептов."""
 
     tags = models.ManyToManyField(
-        Tags, related_name="recipes", verbose_name="Тег рецепта"
+        Tags, related_name="recipes",
+        verbose_name="Тег рецепта"
     )
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор рецепта"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Автор рецепта"
     )
     ingredients = models.ManyToManyField(
         Ingredient,
@@ -132,10 +147,14 @@ class ShopList(models.Model):
     """Модель для Листа Покупок."""
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="cart_recipe"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="cart_recipe"
     )
     recipe = models.ForeignKey(
-        Recipe, on_delete=models.CASCADE, related_name="cart_recipe"
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name="cart_recipe"
     )
 
     class Meta:
@@ -152,10 +171,14 @@ class Follow(models.Model):
     """Модель для Подписок."""
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="follower"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="follower"
     )
     following = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="following"
     )
 
     class Meta:
