@@ -6,20 +6,31 @@ from djoser.views import UserViewSet
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import (IsAuthenticated,
-                                        IsAuthenticatedOrReadOnly)
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 
 from .filters import IngredientSearchFilter, RecipeFilter
-from .models import (Favorite, Follow, Ingredient, Recipe, RecipeIngredient,
-                     ShopList, Tags)
+from .models import (
+    Favorite,
+    Follow,
+    Ingredient,
+    Recipe,
+    RecipeIngredient,
+    ShopList,
+    Tags,
+)
 from .pagination import LimitPageNumberPagination
-from .serializers import (FollowCreateSerializer, FollowSerializer,
-                          IngredientSerializer, RecipesCreateSerializer,
-                          RecipeSerializer, TagsSerializer)
+from .serializers import (
+    FollowCreateSerializer,
+    FollowSerializer,
+    IngredientSerializer,
+    RecipesCreateSerializer,
+    RecipeSerializer,
+    TagsSerializer,
+)
 from .utils import add_obj, remov_obj
 
 
@@ -32,15 +43,11 @@ class CustomUserViewSet(UserViewSet):
     permission_classes = (IsAuthenticated,)
     pagination_class = LimitPageNumberPagination
 
-    @action(detail=True,
-            methods=["POST"],
-            url_path="subscribe")
+    @action(detail=True, methods=["POST"], url_path="subscribe")
     def user_subscribe_add(self, request, id):
         user = request.user
         serializer = FollowCreateSerializer(
-            data={"user": user.id,
-                  "following": id},
-            context={"request": request}
+            data={"user": user.id, "following": id}, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -66,13 +73,12 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[IsAuthenticated],
     )
     def user_subscriptions(self, request):
-        ''' Мои подписки '''
+        """Мои подписки"""
 
         user = request.user
         queryset = Follow.objects.filter(user=user)
         pages = self.paginate_queryset(queryset)
-        serializer = FollowSerializer(
-            pages, many=True, context={"request": request})
+        serializer = FollowSerializer(pages, many=True, context={"request": request})
         return self.get_paginated_response(serializer.data)
 
 
@@ -81,7 +87,7 @@ class TagsView(viewsets.ReadOnlyModelViewSet):
     queryset = Tags.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('name',)
+    filterset_fields = ("name",)
     pagination_class = None
 
 
@@ -95,9 +101,9 @@ class IngredientView(viewsets.ReadOnlyModelViewSet):
 
 
 class RecipeView(viewsets.ModelViewSet):
+    queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    queryset = Recipe.objects.all()
     filterset_class = RecipeFilter
     pagination_class = LimitPageNumberPagination
 
@@ -171,8 +177,7 @@ class RecipeView(viewsets.ModelViewSet):
             for item, value in shopping_list.items()
         ]
         today = datetime.date.today()
-        main_list.append(
-            f" Вы успешно скачали свой список в {today.year} году")
+        main_list.append(f" Вы успешно скачали свой список в {today.year} году")
         response = HttpResponse(main_list, "Content-Type: text/plain")
         response["Content-Disposition"] = 'attachment; filename="ShopList.txt"'
         return response

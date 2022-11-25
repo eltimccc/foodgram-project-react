@@ -6,8 +6,15 @@ from rest_framework.validators import UniqueTogetherValidator
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 
-from .models import (Favorite, Follow, Ingredient, Recipe, RecipeIngredient,
-                     ShopList, Tags)
+from .models import (
+    Favorite,
+    Follow,
+    Ingredient,
+    Recipe,
+    RecipeIngredient,
+    ShopList,
+    Tags,
+)
 
 
 class TagsSerializer(serializers.ModelSerializer):
@@ -29,8 +36,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
     name = serializers.ReadOnlyField(
         source="ingredient.name",
     )
-    measurement_unit = serializers.ReadOnlyField(
-        source="ingredient.measurement_unit")
+    measurement_unit = serializers.ReadOnlyField(source="ingredient.measurement_unit")
 
     class Meta:
         model = RecipeIngredient
@@ -58,8 +64,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = CreateIngredientRecipeSerializer(many=True)
     image = Base64ImageField()
-    tags = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(),
-                                              many=True)
+    tags = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(), many=True)
     name = serializers.CharField(max_length=200)
 
     class Meta:
@@ -160,15 +165,13 @@ class RecipeSerializer(serializers.ModelSerializer):
     def get_is_favorited(self, obj):
         if self.context["request"].user.is_authenticated:
             current_user = self.context["request"].user
-            return Favorite.objects.filter(
-                user=current_user, recipe=obj).exists()
+            return Favorite.objects.filter(user=current_user, recipe=obj).exists()
         return False
 
     def get_is_in_shopping_cart(self, obj):
         if self.context["request"].user.is_authenticated:
             current_user = self.context["request"].user
-            return ShopList.objects.filter(
-                user=current_user, recipe=obj).exists()
+            return ShopList.objects.filter(user=current_user, recipe=obj).exists()
         return False
 
     def validate(self, data):
@@ -208,10 +211,8 @@ class FollowSerializer(serializers.ModelSerializer):
 class FollowCreateSerializer(serializers.ModelSerializer):
     """Сериализатор создания объекта Подписки."""
 
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=CustomUser.objects.all())
-    following = serializers.PrimaryKeyRelatedField(
-        queryset=CustomUser.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    following = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
     email = serializers.ReadOnlyField(source="following.email")
     id = serializers.ReadOnlyField(source="following.id")
     username = serializers.ReadOnlyField(source="following.email")
@@ -244,8 +245,7 @@ class FollowCreateSerializer(serializers.ModelSerializer):
         ]
 
     def get_is_subscribed(self, obj):
-        return Follow.objects.filter(
-            user=obj.user, following=obj.following).exists()
+        return Follow.objects.filter(user=obj.user, following=obj.following).exists()
 
     def get_recipes(self, obj):
         request = self.context["request"]
