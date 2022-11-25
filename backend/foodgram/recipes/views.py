@@ -1,6 +1,7 @@
 import datetime
 
 from django.http.response import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -8,6 +9,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
+
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 
@@ -30,7 +32,9 @@ class CustomUserViewSet(UserViewSet):
     permission_classes = (IsAuthenticated,)
     pagination_class = LimitPageNumberPagination
 
-    @action(detail=True, methods=["POST"], url_path="subscribe")
+    @action(detail=True,
+            methods=["POST"],
+            url_path="subscribe")
     def user_subscribe_add(self, request, id):
         user = request.user
         serializer = FollowCreateSerializer(
@@ -62,6 +66,8 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[IsAuthenticated],
     )
     def user_subscriptions(self, request):
+        ''' Мои подписки '''
+
         user = request.user
         queryset = Follow.objects.filter(user=user)
         pages = self.paginate_queryset(queryset)
@@ -74,6 +80,8 @@ class TagsView(viewsets.ReadOnlyModelViewSet):
     serializer_class = TagsSerializer
     queryset = Tags.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('name',)
     pagination_class = None
 
 
