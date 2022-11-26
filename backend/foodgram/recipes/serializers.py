@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 
@@ -64,8 +63,6 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = CreateIngredientRecipeSerializer(many=True)
     image = Base64ImageField()
-    tags = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(), many=True)
-    name = serializers.CharField(max_length=200)
 
     class Meta:
         model = Recipe
