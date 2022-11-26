@@ -12,7 +12,7 @@ services:
     image: eltimccc/foodgram_backend:latest
     restart: always
     volumes:
-      - static_value:/backend/foodgram/static/
+      - static_value:/static/
       - media_value:/media/
     depends_on:
       - db
