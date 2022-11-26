@@ -28,9 +28,6 @@ class RecipeFilter(django_filters.FilterSet):
         return queryset
 
 
-class IngredientSearchFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr="istartswith")
+class IngredientSearchFilter(django_filters.SearchFilter):
 
-    class Meta:
-        model = Ingredient
-        fields = ("name",)
+    search_param = "name"
