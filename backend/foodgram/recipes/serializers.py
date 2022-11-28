@@ -78,20 +78,18 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, data):
-        ingredients = self.initial_data.get('ingredients')
+        ingredients = self.initial_data.get("ingredients")
         ingredients_set = set()
         for ingredient in ingredients:
-            if int(ingredient.get('amount')) <= 0:
+            if int(ingredient.get("amount")) <= 0:
                 raise serializers.ValidationError(
-                    'Ингредиентов меньше 0 - не положено!'
+                    "Ингредиентов меньше 0 - не положено!"
                 )
-            id = ingredient.get('id')
+            id = ingredient.get("id")
             if id in ingredients_set:
-                raise serializers.ValidationError(
-                    'Дублировать ингредиент нельзя!'
-                )
+                raise serializers.ValidationError("Дублировать ингредиент нельзя!")
             ingredients_set.add(id)
-        data['ingredients'] = ingredients
+        data["ingredients"] = ingredients
 
         return data
 
@@ -189,7 +187,7 @@ class FollowSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField(default=True)
     recipes = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         fields = (
             "email",
@@ -197,16 +195,15 @@ class FollowSerializer(serializers.ModelSerializer):
             "username",
             "first_name",
             "last_name",
-            'is_subscribed',
-            'recipes_count',
-            'recipes'
+            "is_subscribed",
+            "recipes_count",
+            "recipes",
         )
         model = CustomUser
 
     def get_is_subscribed(self, obj):
-        return Follow.objects.filter(
-            user=obj.user, following=obj.following).exists()
-    
+        return Follow.objects.filter(user=obj.user, following=obj.following).exists()
+
     def get_recipes(self, obj):
         request = self.context["request"]
         limit = request.GET.get("recipes_limit")
