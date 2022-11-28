@@ -9,7 +9,7 @@ services:
       - ./.env
   # backend container
   backend:
-    image: eltimccc/foodgram_backend:latest
+    image: eltimccc/foodgram_backend:v1
     restart: always
     volumes:
       - static_value:/app/static/
