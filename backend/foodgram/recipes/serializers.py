@@ -78,13 +78,12 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, data):
-        print(data)
-        ingredients = self.initial_data.get["ingredients"]
+        ingredients = self.initial_data.get('ingredients')
         ingredients_set = set()
         for ingredient in ingredients:
             if int(ingredient.get('amount')) <= 0:
                 raise serializers.ValidationError(
-                    'Ингредиентов меньше 0 - неположено!'
+                    'Ингредиентов меньше 0 - не положено!'
                 )
             id = ingredient.get('id')
             if id in ingredients_set:
@@ -93,6 +92,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
                 )
             ingredients_set.add(id)
         data['ingredients'] = ingredients
+
         return data
 
     def create_ingredients(self, ingredients, recipe):
