@@ -62,7 +62,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
 
     author = CustomUserSerializer(read_only=True)
     ingredients = CreateIngredientRecipeSerializer(many=True)
-    image = Base64ImageField(use_url=False)
+    image = Base64ImageField()
 
     class Meta:
         model = Recipe
@@ -77,30 +77,23 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
             "cooking_time",
         )
 
-    # def validate(self, data):
-    #     print(data)
-    #     ingredients = data["ingredients"]
-    #     ingredient_list = []
-    #     cook_time = data["cooking_time"]
-    #     cook_time_list = []
-    #     amount_ingredient = data["amount"]
-
-    #     for items in ingredients:
-    #         ingredient = Ingredient.objects.get(id=items["name"])
-    #         if ingredient in ingredient_list:
-    #             raise serializers.ValidationError("Дублирование ингредиента")
-    #         ingredient_list.append(ingredient)
-    #         if ingredient_list <= 0:
-    #             raise serializers.ValidationError("Ингредиентов меньше 0!")
-    #     if cook_time <= 0:
-    #         raise serializers.ValidationError(
-    #             "Время должно быть неотрицательное!")
-    #     cook_time_list.append(cook_time)
-    #     if amount_ingredient <= 0:
-    #         raise serializers.ValidationError(
-    #             "Укажите правильное количество ингедиентов."
-    #         )
-    #     return data
+    def validate(self, data):
+        print(data)
+        ingredients = self.initial_data.get["ingredients"]
+        ingredients_set = set()
+        for ingredient in ingredients:
+            if int(ingredient.get('amount')) <= 0:
+                raise serializers.ValidationError(
+                    'Ингредиентов меньше 0 - неположено!'
+                )
+            id = ingredient.get('id')
+            if id in ingredients_set:
+                raise serializers.ValidationError(
+                    'Дублировать ингредиент нельзя!'
+                )
+            ingredients_set.add(id)
+        data['ingredients'] = ingredients
+        return data
 
     def create_ingredients(self, ingredients, recipe):
         create_ingredient = [
@@ -140,7 +133,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         source="ingredients_in_recipe",
     )
     tags = TagsSerializer(many=True)
-    image = Base64ImageField(use_url=False)
+    image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
 
