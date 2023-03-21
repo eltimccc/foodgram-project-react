@@ -1,10 +1,7 @@
-# praktikum_new_diplom
+## Foodgram - это площадка для публикации рецетов. Реализована возможность подписываться на авторов и добавлять рецепты к себе в избранное. Также можно скачать список покупок ингредиентов рецепта.
 
-Status of last Deployment:<br>
 <img src="https://github.com/eltimccc/foodgram-project-react/actions/workflows/main.yml/badge.svg"><br>  
-
-## Поект доступен по ссылке http://84.201.128.143/
-
+### Технологии:
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
 [![Django REST Framework](https://img.shields.io/badge/-Django%20REST%20Framework-464646?style=flat-square&logo=Django%20REST%20Framework)](https://www.django-rest-framework.org/)
@@ -15,15 +12,13 @@ Status of last Deployment:<br>
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
 
-Foodgram - это площадка для публикации рецетов. Реализована возможность подписываться на авторов и добавлять рецепты к себе в избранное. Также можно скачать список покупок ингредиентов рецепта.
-
-## Подготовка и запуск проекта
-### Склонировать репозиторий на локальную машину:
+### Подготовка и запуск проекта
+#### Склонировать репозиторий на локальную машину:
 ```
 git clone https://github.com/eltimccc/foodgram-project-react
 ```
 
-## Для работы с удаленным сервером в YandexCloud:
+### Для работы с удаленным сервером в YandexCloud:
 
 * Подключитесь к своей виртуальной машине
 ```
